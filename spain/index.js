@@ -3,7 +3,6 @@ const cron = require('node-cron')
 var task = cron.schedule('* * * * *', async () => {
 	const puppeteer = require('puppeteer')
 	const nodemailer = require('nodemailer')
-	const cron = require('node-cron')
 
 	const transporter = nodemailer.createTransport({
 		port: 25,
