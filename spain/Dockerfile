@@ -1,37 +1,34 @@
 FROM node:12-slim
 
 # Install latest chrome dev package and fonts to support major charsets (Chinese, Japanese, Arabic, Hebrew, Thai and a few others)
-# Note: this installs the necessary libs to make the bundled version of Chromium that Puppeteer
-# installs, work.
+# Note: this installs the necessary libs to make the bundled version of Chromium work.
 RUN apt-get update \
-    && apt-get install -y wget gnupg \
-    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-    && apt-get update \
-    && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 \
-      --no-install-recommends \
+    && apt-get install -y libglib2.0-0\
+        libnss3\
+        libnspr4\
+        libatk1.0-0\
+        libatk-bridge2.0-0\
+        libcups2\
+        libdrm2\
+        libdbus-1-3\
+        libxcb1\
+        libxkbcommon0\
+        libx11-6\
+        libxcomposite1\
+        libxdamage1\
+        libxext6\
+        libxfixes3\
+        libxrandr2\
+        libgbm1\
+        libpango-1.0-0\
+        libcairo2\
+        libasound2\
+        libatspi2.0-0\
     && rm -rf /var/lib/apt/lists/*
-
-# Uncomment to skip the chromium download when installing puppeteer. If you do,
-# you'll need to launch puppeteer with:
-#     browser.launch({executablePath: 'google-chrome-stable'})
-# ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
-
-# Install puppeteer so it's available in the container.
+    
 RUN npm init -y &&  \
-    npm i puppeteer \
-	npm i nodemailer \
-	npm i node-cron \
-    # Add user so we don't need --no-sandbox.
-    # same layer as npm install to keep re-chowned files from using up several hundred MBs more space
-    && groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
-    && mkdir -p /home/pptruser/Downloads \
-    && chown -R pptruser:pptruser /home/pptruser \
-    && chown -R pptruser:pptruser /node_modules \
-    && chown -R pptruser:pptruser /package.json \
-    && chown -R pptruser:pptruser /package-lock.json
-
-# Run everything after as non-privileged user.
-USER pptruser
+    #npm i playwright nodemailer node-cron puppeteer \
+    npm i -D playwright \
+    npm i nodemailer node-cron
 
 CMD ["google-chrome-stable"]
