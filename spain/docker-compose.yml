@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  visa-bot:
+    build: .
+    image: visa-bot:latest
+    container_name: visa-bot
+    restart: always
+    command: node -e "`cat index.js`"
