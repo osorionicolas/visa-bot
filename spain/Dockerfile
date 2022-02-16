@@ -27,8 +27,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
     
 RUN npm init -y &&  \
-    #npm i playwright nodemailer node-cron puppeteer \
-    npm i -D playwright \
-    npm i nodemailer node-cron
+    npm i nodemailer node-cron playwright
 
-CMD ["google-chrome-stable"]
+WORKDIR /app
+COPY ./index.js .
+
+CMD ["node", "index.js"]

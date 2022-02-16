@@ -29,4 +29,7 @@ RUN apt-get update \
 RUN npm init -y &&  \
     npm i nodemailer node-cron 2captcha playwright
 
-CMD ["google-chrome-stable"]
+WORKDIR /app
+COPY ./index.js .
+
+CMD ["node", "index.js"]

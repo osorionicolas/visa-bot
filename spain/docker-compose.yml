@@ -1,8 +1,18 @@
 version: "3.8"
 services:
+  smtp:
+    image: namshi/smtp
+    container_name: smtp
+    environment:
+      - DISABLE_IPV6=true
+      - GMAIL_USER=
+      - GMAIL_PASSWORD=
+      - RELAY_NETWORKS=:10.0.0.0/8:127.0.0.0/8:172.17.0.0/16:192.0.0.0/8
+    ports:
+      - "25:25"
+    restart: always
   visa-bot:
     build: .
     image: visa-bot:latest
     container_name: visa-bot
     restart: always
-    command: node -e "`cat index.js`"
