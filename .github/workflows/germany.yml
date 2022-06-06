@@ -1,9 +1,10 @@
-name: Visa Bot
+name: Germany
 on:
   schedule:
     - cron: "* * * * *"
 jobs:
-  release:
+  run:
+    if: false
     name: Check status
     runs-on: ubuntu-18.04
     steps:
@@ -18,4 +19,4 @@ jobs:
       - name: Install playwright dependencies
         run: npx playwright install-deps chromium
       - name: Run Spain
-        run: npm run spain
+        run: npm run germany
