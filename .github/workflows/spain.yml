@@ -16,5 +16,5 @@ jobs:
         with:
           node-version: 16.x
       - run: npm install
-      - run: npx playwright install-deps chromium
+      - run: npx playwright install --with-deps
       - run: npm run spain
