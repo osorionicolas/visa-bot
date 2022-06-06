@@ -1,0 +1,21 @@
+name: Visa Bot
+on:
+  schedule:
+    - cron: "* * * * *"
+jobs:
+  release:
+    name: Check status
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3.3.0
+        with:
+          node-version: 16.x
+      - name: Install dependencies
+        run: npm install
+      - name: Install playwright dependencies
+        run: npx playwright install-deps chromium
+      - name: Run Spain
+        run: npm run spain
