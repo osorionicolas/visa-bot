@@ -1,4 +1,4 @@
-FROM node:12-slim
+FROM node:16-slim
 
 # Install latest chrome dev package and fonts to support major charsets (Chinese, Japanese, Arabic, Hebrew, Thai and a few others)
 # Note: this installs the necessary libs to make the bundled version of Chromium work.
@@ -26,10 +26,10 @@ RUN apt-get update \
         libatspi2.0-0\
     && rm -rf /var/lib/apt/lists/*
     
-RUN npm init -y &&  \
-    npm i nodemailer node-cron playwright
-
 WORKDIR /app
 COPY ./index.js .
+
+RUN npm init -y &&  \
+    npm i nodemailer node-cron playwright
 
 CMD ["node", "index.js"]
