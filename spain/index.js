@@ -1,11 +1,12 @@
-(async () => {
-    const nodemailer = require("nodemailer")
-    const { chromium } = require("playwright")
+const cron = require("node-cron")
+const nodemailer = require("nodemailer")
+const { chromium } = require("playwright")
 
-    const url = "https://www.cgeonline.com.ar/informacion/apertura-de-citas.html"
-    const sender = ""
-    const receiver = [""]
+const url = "https://www.cgeonline.com.ar/informacion/apertura-de-citas.html"
+const sender = ""
+const receiver = [""]
 
+cron.schedule("* * * * *", async () => {
     let date = new Date().toLocaleString("es-AR", { timeZone: "America/Buenos_Aires" })
     console.log(`${date} - Starting...`)
     try {
@@ -38,8 +39,5 @@
         }
     } catch (error) {
         console.log(error)
-        process.exit()
     }
 })
-
-()

@@ -11,6 +11,7 @@ services:
     ports:
       - "25:25"
     restart: always
+
   visa-bot:
     build: .
     image: visa-bot:latest

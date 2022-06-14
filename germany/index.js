@@ -1,12 +1,13 @@
-(async () => {
-    const nodemailer = require("nodemailer")
-    const { chromium } = require("playwright")
-    const Captcha = require("2captcha")
+const cron = require("node-cron")
+const nodemailer = require("nodemailer")
+const { chromium } = require("playwright")
+const Captcha = require("2captcha")
 
-    const sender = ""
-    const receiver = [""]
-    const captchaKey = ""
+const sender = ""
+const receiver = [""]
+const captchaKey = ""
 
+cron.schedule("* * * * *", async () => {
     let month = new Date().getMonth() + 1
     const url = (month) =>
         `https://service2.diplo.de/rktermin/extern/appointment_showMonth.do?request_locale=es&locationCode=buen&realmId=541&categoryId=867&dateStr=14.0${month}.2022`
@@ -74,8 +75,5 @@
         }
     } catch (error) {
         console.log(error)
-        process.exit()
     }
 })
-
-()
