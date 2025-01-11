@@ -1,10 +1,7 @@
 (async () => {
-    const nodemailer = require("nodemailer")
     const { chromium } = require("playwright")
 
     const url = "https://www.cgeonline.com.ar/informacion/apertura-de-citas.html"
-    const sender = ""
-    const receiver = [""]
 
     let date = new Date().toLocaleString("es-AR", { timeZone: "America/Buenos_Aires" })
     console.log(`${date} - Starting...`)
@@ -16,27 +13,11 @@
         console.log(response)
 
         if (response !== "fecha por confirmar") {
-            const transporter = nodemailer.createTransport({
-                port: 25,
-                host: "localhost",
-            })
-            const mailOptions = {
-                from: sender,
-                to: receiver,
-                subject: "Hay fechas disponibles para reprogramar tu visa!",
-                text: `Hemos encontrado una fecha disponible para reprogramar tu visa el día: ${response}`,
-            }
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    console.log(error)
-                } else {
-                    console.log("Email sent: " + info.response)
-                    process.exit()
-                }
-            })
-            browser.close()
+            console.log(response)
         }
     } catch (error) {
         console.log(error)
+    } finally {
+        await browser.close()
     }
 })()

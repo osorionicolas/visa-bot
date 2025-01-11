@@ -1,10 +1,7 @@
 (async () => {
-    const nodemailer = require("nodemailer")
     const { chromium } = require("playwright")
     const Captcha = require("2captcha")
 
-    const sender = ""
-    const receiver = [""]
     const captchaKey = ""
 
     let month = new Date().getMonth() + 1
@@ -52,27 +49,11 @@
             await page.goto(url(month))
         }
         if (date) {
-            const transporter = nodemailer.createTransport({
-                port: 25,
-                host: "smtp",
-            })
-            const mailOptions = {
-                from: sender,
-                to: receiver,
-                subject: "Hay fechas disponibles para reprogramar tu visa!",
-                text: `Hemos encontrado una fecha disponible para reprogramar tu visa el día: ${date}`,
-            }
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    console.log(error)
-                } else {
-                    console.log("Email sent: " + info.response)
-                    process.exit()
-                }
-            })
-            browser.close()
+            console.log(date)
         }
     } catch (error) {
         console.log(error)
+    } finally {
+        await browser.close()
     }
 })()

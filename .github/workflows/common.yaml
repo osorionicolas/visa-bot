@@ -1,0 +1,52 @@
+name: Visa Bot
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: "The working directory for the visa bot"
+        required: true
+        type: string
+
+jobs:
+  visa:
+    name: Run visa bot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npx playwright install --with-deps
+
+      - name: Run tests
+        id: playwright
+        run: |
+          node index.js > output.log
+          echo "output=$(cat output.log)" >> $GITHUB_ENV
+        working-directory: ${{ inputs.working-directory }}
+
+      - name: Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USER }}
+          password: ${{ secrets.EMAIL_PASS }}
+          subject: Hay fechas disponibles para reprogramar tu visa!
+          to: ${{ vars.RECIPIENT }}
+          from: ${{ vars.SENDER }}
+          body: |
+            Hemos encontrado una fecha disponible para reprogramar tu visa el día:
+            ${{ env.output }}

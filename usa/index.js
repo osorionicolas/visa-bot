@@ -1,16 +1,10 @@
 (async () => {
     const puppeteer = require('puppeteer')
-    const nodemailer = require('nodemailer')
-    const transporter = nodemailer.createTransport({
-        port: 25,
-        host: "localhost"
-    })
 
     const url = 'https://url/'
     const username = 'username'
     const password = 'password'
-    const sender = ''
-    const receiver = [''] 
+
     console.log("Starting...")
     const browser = await puppeteer.launch({ headless: false })
     try {
@@ -73,19 +67,7 @@
         })
         console.log(response)
         if(response){
-            const mailOptions = {
-                from: sender,
-                to: receiver,
-                subject: 'Hay fechas disponibles para reprogramar tu visa!',
-                text: `Hemos encontrado una fecha disponible para reprogramar tu visa el día: ${response}`
-            }
-            transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                console.log(error)
-                } else {
-                console.log('Email sent: ' + info.response)
-                }
-            })
+            console.log(response)
         }
     } catch (err) {
         console.error(err.message)

@@ -1,4 +1,5 @@
-name: USA
+name: USA Visa Bot
+
 on:
   #schedule:
   #  - cron: "15 4,5 * * *" 
@@ -6,26 +7,6 @@ on:
 
 jobs:
   visa:
-    name: Run visa bot for USA
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Install dependencies
-        run: |
-          npm ci
-          npx playwright install --with-deps
-
-      - name: Run tests
-        run: node index.js
-        working-directory: usa
+    uses: ./.github/workflows/visa-bot.yml
+    with:
+      working-directory: usa
