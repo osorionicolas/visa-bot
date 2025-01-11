@@ -7,6 +7,6 @@ on:
 
 jobs:
   visa:
-    uses: ./.github/workflows/visa-bot.yml
+    uses: ./.github/workflows/visa-bot.yaml
     with:
       working-directory: spain
