@@ -1,0 +1,11 @@
+{
+    "name": "visa-bot",
+    "version": "1.0.0",
+    "scripts": {
+    },
+    "dependencies": {
+        "playwright": "^1.49.1",
+        "nodemailer": "^6.9.16",
+        "2captcha": "^3.0.5-2"
+    }
+}
