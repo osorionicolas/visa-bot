@@ -9,9 +9,9 @@
         `https://service2.diplo.de/rktermin/extern/appointment_showMonth.do?request_locale=es&locationCode=buen&realmId=541&categoryId=867&dateStr=14.0${month}.2022`
     let date = new Date().toLocaleString("es-AR", { timeZone: "America/Buenos_Aires" })
     console.log(`${date} - Starting...`)
+    const browser = await chromium.launch()
 
     try {
-        const browser = await chromium.launch()
         const page = await browser.newPage()
 
         const getDate = async () => {

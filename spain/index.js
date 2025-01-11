@@ -5,8 +5,8 @@
 
     let date = new Date().toLocaleString("es-AR", { timeZone: "America/Buenos_Aires" })
     console.log(`${date} - Starting...`)
+    const browser = await chromium.launch()
     try {
-        const browser = await chromium.launch()
         const page = await browser.newPage()
         await page.goto(url)
         const response = await page.textContent("tbody tr:nth-child(24) td:nth-child(3)")
