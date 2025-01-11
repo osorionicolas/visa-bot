@@ -16,14 +16,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
-
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('${{ inputs.working-directory }}/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          node-version: 16
+          cache: 'npm'
             
       - name: Install dependencies
         run: |
@@ -34,11 +29,15 @@ jobs:
         id: playwright
         working-directory: ${{ inputs.working-directory }}
         run: |
-          # Save the output and encode it to avoid special character issues
-          output=$(node index.js)
-          # Remove special characters and spaces, replace with underscores
-          sanitized_output=$(echo "$output" | tr ' /' '_')
-          echo "output=$sanitized_output" >> $GITHUB_ENV
+          # Save the raw output
+          raw_output=$(node index.js)
+          # Convert to alphanumeric only and underscores
+          sanitized_output=$(echo "$raw_output" | sed 's/[^a-zA-Z0-9]/_/g')
+          # Store both versions
+          echo "SANITIZED_OUTPUT=$sanitized_output" >> $GITHUB_ENV
+          echo "RAW_OUTPUT<<EOF" >> $GITHUB_ENV
+          echo "$raw_output" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Send Email Notification
         uses: dawidd6/action-send-mail@v3
